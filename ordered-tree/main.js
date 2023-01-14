@@ -44,6 +44,8 @@ define([
     } catch(error) {
       NBList._file_order = undefined;
       $('#ordered_tree').hide();
+      if (NBList.sort_id === 'ordered-tree')
+        $('#sort-name').click();
       if (error.cause !== 404)
         console.log(error);
     }
