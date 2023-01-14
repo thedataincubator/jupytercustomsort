@@ -32,7 +32,7 @@ define([
   }
 
   async function get_file_order() {
-    let order_file = `${NBList.base_url}files/${NBList.notebook_path}/_file_order`;
+    let order_file = `${NBList.base_url}files/${NBList.notebook_path}/_file_order`.replace('//', '/');
     try {
       let response = await fetch(order_file);
       if (!response.ok)
@@ -44,8 +44,7 @@ define([
     } catch(error) {
       NBList._file_order = undefined;
       $('#ordered_tree').hide();
-      // We seem to get a 403, not a 404, when the file doesn't exist in the root directory
-      if (error.cause !== 403 && error.cause !== 404)
+      if (error.cause !== 404)
         console.log(error);
     }
   }
