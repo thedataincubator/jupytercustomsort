@@ -22,6 +22,9 @@ def load_jupyter_server_extension(nbapp):
     route_pattern = url_path_join(nbapp.web_app.settings['base_url'], f'customorder{path_regex}')
     nbapp.web_app.add_handlers('.*$', [(route_pattern, FileOrderHandler, {'path': root_dir})])
 
+# New name for Jupyter server
+_load_jupyter_server_extension = load_jupyter_server_extension
+
 # Configuration of the extensions
 def _jupyter_server_extension_paths():
     return [{'module': 'jupytercustomsort'}]
