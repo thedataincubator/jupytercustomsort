@@ -32,7 +32,7 @@ define([
   }
 
   async function get_file_order() {
-    let order_file = `${NBList.base_url}files/${NBList.notebook_path}/_file_order`.replace('//', '/');
+    let order_file = `${NBList.base_url}customorder/${NBList.notebook_path}`.replace('//', '/');
     try {
       let response = await fetch(order_file);
       if (!response.ok)
