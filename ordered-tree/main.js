@@ -10,8 +10,8 @@ define([
     if (a['type'] != b['type'])
       return name_sorter(a, b);
 
-    let aIndex = NBList._file_order.indexOf(a['name']);
-    let bIndex = NBList._file_order.indexOf(b['name']);
+    let aIndex = NBList._file_order.order.indexOf(a['name']);
+    let bIndex = NBList._file_order.order.indexOf(b['name']);
     if (aIndex > -1 && bIndex > -1)
       return aIndex < bIndex ? -1 : 1;
     else if (aIndex > -1)
