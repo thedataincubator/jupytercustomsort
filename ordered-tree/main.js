@@ -24,11 +24,11 @@ define([
   function sort_handler() {
     // Clear sort indications
     $('.sort-action i').removeClass('fa-arrow-up').removeClass('fa-arrow-down');
-    $('#ordered-tree i').addClass('fa-arrow-down');
+    $('#custom-sort i').addClass('fa-arrow-down');
 
     NBList.sort_function = sort_function;
     NBList.draw_notebook_list(NBList.model_list, NBList.error_msg);
-    NBList.sort_id = 'ordered-tree';
+    NBList.sort_id = 'custom-sort';
   }
 
   async function get_file_order() {
@@ -39,12 +39,12 @@ define([
         throw new Error('Fetch of file order failed', {cause: response.status});
 
       NBList._file_order = await response.json();
-      $('#ordered_tree').show();
+      $('#custom_sort').show();
       sort_handler();
     } catch(error) {
       NBList._file_order = undefined;
-      $('#ordered_tree').hide();
-      if (NBList.sort_id === 'ordered-tree')
+      $('#custom_sort').hide();
+      if (NBList.sort_id === 'custom-sort')
         $('#sort-name').click();
       if (error.cause !== 404)
         console.log(error);
@@ -54,14 +54,14 @@ define([
   function load_ipython_extension() {
     let buttonContainer = document.querySelector('#sort_buttons');
     buttonContainer.insertAdjacentHTML('afterbegin', `
-      <div id="ordered_tree" class="sort_button" style="display: none;">
-        <button id="ordered-tree" class="btn btn-xs btn-default sort-action" type="button" aria-label="Sort by Order">
-          Order
+      <div id="custom_sort" class="sort_button" style="display: none;">
+        <button id="custom-sort" class="btn btn-xs btn-default sort-action" type="button" aria-label="Custom Sort">
+          Custom
           <i class="fa"></i>
         </button>
       </div>
     `);
-    $('#ordered-tree').click(sort_handler);
+    $('#custom-sort').click(sort_handler);
 
     let old_load_list = NBList.load_list;
     NBList.load_list = function() {
