@@ -34,4 +34,4 @@ When this directory is viewed in Jupyter, the custom sort will be automatically 
 
 ## License
 
-Jupyter Custom Sort is copyright 2023 Pragmatic Institute, released under the BSD 3-clause license.  See the LICENSE file for details.  The source is available at https://github.com/dataincubator/jupytercustomsort.
+Jupyter Custom Sort is copyright 2023 Pragmatic Institute, released under the BSD 3-clause license.  See the LICENSE file for details.  The source is available at https://github.com/thedataincubator/jupytercustomsort.
