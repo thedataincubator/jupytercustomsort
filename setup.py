@@ -3,7 +3,7 @@
 from distutils.core import setup
 
 setup(
-    name='Jupyter Custom Sort',
+    name='jupytercustomsort',
     version='0.1',
     description='Custom sort order for Jupyter file list',
     long_description='This package provides both a server extension and a notebook extension to provide a custom sort order for Jupyter file lists.  When both are enabled, a `.custom_order` JSON file can be placed in any directory to determine the sort order.',
