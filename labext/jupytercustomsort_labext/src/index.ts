@@ -17,6 +17,8 @@ import { IStateDB } from '@jupyterlab/statedb';
 import { WidgetTracker } from '@jupyterlab/apputils';
 import { CommandRegistry } from '@lumino/commands';
 
+import { CustomFileBrowser } from './browser'
+
 /**
  * The default file browser factory provider.
  */
@@ -53,7 +55,7 @@ const plugin: JupyterFrontEndPlugin<IFileBrowserFactory> = {
             : options.state || state || undefined
       });
       const restore = options.restore;
-      const widget = new FileBrowser({ id, model, restore, translator });
+      const widget = new CustomFileBrowser({ id, model, restore, translator });
 
       // Track the newly created file browser.
       void tracker.add(widget);
