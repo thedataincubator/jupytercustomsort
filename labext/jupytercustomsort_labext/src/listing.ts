@@ -19,33 +19,33 @@ export class CustomDirListing extends DirListing {
 }
 
 namespace Private {
+  namespace CmpFunctions {
+    export function last_modified(a: Contents.IModel, b: Contents.IModel) {
+      const valA = new Date(a.last_modified).getTime();
+      const valB = new Date(b.last_modified).getTime();
+      return valA - valB;
+    }
+
+    export function name(a: Contents.IModel, b: Contents.IModel) {
+      return b.name.localeCompare(a.name);
+    }
+  };
+
   export function sort(
     items: IIterator<Contents.IModel>,
     state: DirListing.ISortState
   ): Contents.IModel[] {
     const copy = toArray(items);
     const reverse = state.direction === 'descending' ? 1 : -1;
+    const cmpFunc = CmpFunctions[state.key];
 
-    if (state.key === 'last_modified') {
-      // Sort by last modified (grouping directories first)
-      copy.sort((a, b) => {
-        const t1 = a.type === 'directory' ? 0 : 1;
-        const t2 = b.type === 'directory' ? 0 : 1;
+    // Sort by last modified (grouping directories first)
+    copy.sort((a, b) => {
+      const t1 = a.type === 'directory' ? 0 : 1;
+      const t2 = b.type === 'directory' ? 0 : 1;
 
-        const valA = new Date(a.last_modified).getTime();
-        const valB = new Date(b.last_modified).getTime();
-
-        return t1 - t2 || (valA - valB) * reverse;
-      });
-    } else {
-      // Sort by name (grouping directories first)
-      copy.sort((a, b) => {
-        const t1 = a.type === 'directory' ? 0 : 1;
-        const t2 = b.type === 'directory' ? 0 : 1;
-
-        return t1 - t2 || b.name.localeCompare(a.name) * reverse;
-      });
-    }
+      return t1 - t2 || cmpFunc(a, b) * reverse;
+    });
     return copy;
   }
 }
