@@ -2,7 +2,11 @@
 // Distributed under the terms of the Modified BSD License.
 
 import { DirListing } from '@jupyterlab/filebrowser';
-import { Contents } from '@jupyterlab/services';
+import { URLExt } from '@jupyterlab/coreutils';
+import {
+  Contents,
+  ServerConnection
+} from '@jupyterlab/services';
 import {
   IIterator,
   toArray
@@ -34,13 +38,8 @@ export class CustomDirListing extends DirListing {
 
   async pathChanged(): Promise<void> {
     this.customOrder = [];
-    let base_url = '/';
-    let order_url = `${base_url}customorder/${this._model.path}`;
     try {
-      let response = await fetch(order_url);
-      if (!response.ok)
-        throw new HttpError('Failed to load custom order', response.status);
-      this.customOrder = (await response.json()).order;
+      this.customOrder = (await Private.customOrderRequest(this._model.path)).order;
       this.sort(this['_sortState']);
     } catch (error) {
       if (!(error instanceof HttpError) || error.code !== 404)
@@ -97,5 +96,14 @@ namespace Private {
       return t1 - t2 || cmpFunc(a, b, customOrder) * reverse;
     });
     return copy;
+  }
+
+  export async function customOrderRequest(path: string): Promise<any> {
+    const settings = ServerConnection.makeSettings();
+    const url = URLExt.join(settings.baseUrl, 'customorder', path);
+    let response = await ServerConnection.makeRequest(url, {}, settings);
+    if (!response.ok)
+      throw new HttpError('Failed to load custom order', response.status);
+    return await response.json();
   }
 }
